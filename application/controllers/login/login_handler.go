@@ -1,32 +1,24 @@
-package interfaces
+package controllers
 
 import (
-	composers "duna-pet-back/application/composers/login"
-	"duna-pet-back/domain/entities"
-	"fmt"
+	usecases "duna-pet-back/application/usecases/login"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type LoginHandler struct {
-	composer composers.LoginComposer
+	loginService *usecases.LoginUsecase
 }
 
-func NewLoginHandler() *LoginHandler {
+func NewLoginHandler(loginService *usecases.LoginUsecase) *LoginHandler {
 	return &LoginHandler{
-		composer: *composers.NewLoginComposer(),
+		loginService: loginService,
 	}
 }
 
 func (h *LoginHandler) Login(c *gin.Context) {
-	var login entities.Login
-	if err := c.ShouldBindJSON(&login); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	token, err := h.userService.LoginUser(login)
+	token, err := h.loginService.LoginUser(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Credenciais inválidas"})
 		return
@@ -36,8 +28,6 @@ func (h *LoginHandler) Login(c *gin.Context) {
 }
 
 func (h *LoginHandler) RegisterHandler(c *gin.Context) {
-	service := h.composer.ComposeLoginService()
-	user, _ := service.RegisterUser(c)
-	fmt.Println(user)
-	c.JSON(http.StatusOK, user)
+	h.loginService.RegisterUser(c)
+	c.JSON(http.StatusOK, nil)
 }

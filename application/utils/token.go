@@ -10,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var secretKey = []byte("seu_segredo_secreto")
+var env_data = GetConfig()
+
+var secretKey = []byte(env_data.SecretKey)
 
 func CreateJWTToken(userID int) (string, error) {
 	// Criar token com payload contendo o ID do usuário e expiração

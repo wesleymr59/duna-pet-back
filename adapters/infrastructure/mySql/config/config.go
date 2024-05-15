@@ -2,6 +2,7 @@ package database
 
 import (
 	"duna-pet-back/application/utils"
+	"duna-pet-back/domain/entities"
 	"fmt"
 	"log"
 
@@ -24,7 +25,7 @@ func ConnDataBase() {
 	if err != nil {
 		log.Fatal("Erro ao conectar com banco de dados")
 	}
-	//conn.AutoMigrate(&entities.User{})
+	conn.AutoMigrate(&entities.User{}, &entities.Dog{})
 
 	DB = conn
 }

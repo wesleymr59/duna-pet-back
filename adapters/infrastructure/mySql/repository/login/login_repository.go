@@ -14,17 +14,17 @@ func NewMySQLUserRepository(db *gorm.DB) *MySQLUserRepository {
 	return &MySQLUserRepository{db: db}
 }
 
-func (r *MySQLUserRepository) Create(user entities.User) error {
-	if err := r.db.Create(&user).Error; err != nil {
+func (repo *MySQLUserRepository) FindByEmailAndPassword(email, password string) (entities.User, error) {
+	var user entities.User
+	if err := repo.db.Where("email = ? AND passwd = ?", email, password).First(&user).Error; err != nil {
+		return entities.User{}, err
+	}
+	return user, nil
+}
+
+func (repo *MySQLUserRepository) CreateUser(user *entities.User) error {
+	if err := repo.db.Create(user).Error; err != nil {
 		return err
 	}
 	return nil
-}
-
-func (r *MySQLUserRepository) FindByEmailAndPassword(email, password string) (entities.User, error) {
-	var user entities.User
-	if result := r.db.Where("email = ? AND passwd = ? AND active = ?", email, password, true).First(&user); result.Error != nil {
-		return user, result.Error
-	}
-	return user, nil
 }

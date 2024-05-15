@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 	"regexp"
 	"strconv"
@@ -23,10 +22,10 @@ type Config struct {
 	Password   string
 	Name       string
 	Charset    string
+	SecretKey  string
 }
 
 func loadEnv() {
-	fmt.Println("taaki")
 	re := regexp.MustCompile(`^(.*` + projectDirName + `)`)
 	cwd, _ := os.Getwd()
 	rootPath := re.Find([]byte(cwd))
@@ -50,6 +49,7 @@ func GetConfig() *Config {
 	dbName := os.Getenv("DB_DATABASE")
 	dbUsername := os.Getenv("DB_USERNAME")
 	dbPassword := os.Getenv("DB_PASSWORD")
+	secretKey := os.Getenv("SECRET_KEY")
 
 	return &Config{
 		Connection: "mysql",
@@ -59,5 +59,6 @@ func GetConfig() *Config {
 		Password:   dbPassword,
 		Name:       dbName,
 		Charset:    "utf8",
+		SecretKey:  secretKey,
 	}
 }

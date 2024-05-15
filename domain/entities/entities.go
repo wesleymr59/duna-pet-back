@@ -17,3 +17,8 @@ type Login struct {
 	Email  string `json:"email"`
 	Passwd string `json:"passwd"`
 }
+
+type Dog struct {
+	ID   int    `gorm:"primaryKey,autoIncrement:true;"`
+	Race string `json:"race"`
+}
