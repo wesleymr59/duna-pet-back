@@ -1,10 +1,10 @@
 package main
 
 import (
-	config "duna-pet-back/adapters/infrastructure/mySql/config"
-	loginComposers "duna-pet-back/application/composers/login"
-	petComposers "duna-pet-back/application/composers/pets"
-	"duna-pet-back/application/routers"
+	loginComposers "duna-pet-back/app/composers/login"
+	petComposers "duna-pet-back/app/composers/pets"
+	"duna-pet-back/app/routers"
+	config "duna-pet-back/infrastructure/db/mySql/config"
 )
 
 func main() {
